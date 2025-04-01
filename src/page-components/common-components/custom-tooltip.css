@@ -1,0 +1,70 @@
+/* custom-tooltip.css */
+.tippy-box[data-theme~="custom-blue"] {
+  background-color: #22317c;
+  color: #ffffff; /* Set text color to white for better contrast */
+  border-radius: 4px; /* Optional: add rounded corners */
+  padding: 3px; /* Optional: add some padding */
+  font-size: small;
+}
+
+.tippy-box[data-theme~="custom-blue"][data-placement^="top"]
+  > .tippy-arrow::before {
+  border-top-color: #22317c;
+}
+
+.tippy-box[data-theme~="custom-blue"][data-placement^="bottom"]
+  > .tippy-arrow::before {
+  border-bottom-color: #22317c;
+}
+
+.tippy-box[data-theme~="custom-blue"][data-placement^="left"]
+  > .tippy-arrow::before {
+  border-left-color: #22317c;
+}
+
+.tippy-box[data-theme~="custom-blue"][data-placement^="right"]
+  > .tippy-arrow::before {
+  border-right-color: #22317c;
+}
+
+.tippy-box[data-theme~="custom-lightblue"] {
+  background-color: #d8e3ff; /* Light blue */
+  color: #333333; /* Dark text for better contrast */
+  border-radius: 4px;
+  padding: 3px;
+  font-size: small;
+}
+
+.tippy-box[data-theme~="custom-lightblue"][data-placement^="top"] > .tippy-arrow::before {
+  border-top-color: #d8e3ff;
+}
+.tippy-box[data-theme~="custom-lightblue"][data-placement^="bottom"] > .tippy-arrow::before {
+  border-bottom-color: #d8e3ff;
+}
+.tippy-box[data-theme~="custom-lightblue"][data-placement^="left"] > .tippy-arrow::before {
+  border-left-color: #d8e3ff;
+}
+.tippy-box[data-theme~="custom-lightblue"][data-placement^="right"] > .tippy-arrow::before {
+  border-right-color: #d8e3ff;
+}
+
+.tippy-box[data-theme~="custom-lightpink"] {
+  background-color: #FFD6D6; /* Light pink */
+  color: #333333; /* Dark text for contrast */
+  border-radius: 4px;
+  padding: 3px;
+  font-size: small;
+}
+
+.tippy-box[data-theme~="custom-lightpink"][data-placement^="top"] > .tippy-arrow::before {
+  border-top-color: #FFD6D6;
+}
+.tippy-box[data-theme~="custom-lightpink"][data-placement^="bottom"] > .tippy-arrow::before {
+  border-bottom-color: #FFD6D6;
+}
+.tippy-box[data-theme~="custom-lightpink"][data-placement^="left"] > .tippy-arrow::before {
+  border-left-color: #FFD6D6;
+}
+.tippy-box[data-theme~="custom-lightpink"][data-placement^="right"] > .tippy-arrow::before {
+  border-right-color: #FFD6D6;
+}
