@@ -41,7 +41,6 @@ const useAddPatientWithoutAbha = ({
           yearOfBirth: +patientInfo?.yearOfBirth,
           gender: patientInfo?.gender,
           address: patientInfo?.address === "" ? null : patientInfo?.address,
-          habitat: patientInfo?.habitatId,
           mmuUnit: mmuUnitName,
           district: patientInfo?.district,
           state: patientInfo?.state,

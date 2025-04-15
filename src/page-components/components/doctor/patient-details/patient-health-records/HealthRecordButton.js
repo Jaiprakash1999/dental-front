@@ -37,6 +37,14 @@ const HealthRecordButton = ({ setActiveHealthTab = () => {} }) => {
         >
           {t("Vaccination Form")}
         </button>
+
+        <button
+          className="text-left"
+          onClick={() => setActiveHealthTab("dental_form")}
+        >
+          {t("Treatment Plan")}
+        </button>
+
         <button
           className="text-left"
           onClick={() => setActiveHealthTab("pergnancy_overview")}

@@ -9,6 +9,7 @@ import useGetAllVisit from "./hooks/useGetAllVisit";
 import { firstLetterCapital } from "../../../../utils/firstLetterCapital";
 import { useTranslation } from "react-i18next";
 import { FORMAT_VISIT_TAGS } from "../../../../utils/userType";
+import moment from "moment";
 
 const STATUS_COLOR_MAPPING = {
   UPCOMING: "bg-[#E1EFFE] text-[#1F5084]",
@@ -48,13 +49,15 @@ const FilteredList = ({ patientVisitList = [] }) => {
       <ToastContainer />
       <div className="border border-t-0 border-r-0 border-l-0">
         <div className="flex w-full items-center uppercase bg-[#F9FAFB] text-sm font-medium text-gray-800">
-          <div className="w-[10%] ps-2 flex items-center py-3  border-[#B6B6B6] ">
+          {/* <div className="w-[10%] ps-2 flex items-center py-3  border-[#B6B6B6] ">
             {t("Patient ID")}
-          </div>
-          <div className="w-[10%] py-3  border-[#B6B6B6] ">
+          </div> */}
+          <div className="w-[10%] py-3 ps-2  border-[#B6B6B6] ">
             {t("Token NO.")}
           </div>
-
+          <div className="w-[10%] flex items-center py-3  border-[#B6B6B6] ">
+            {t("Time Slot")}
+          </div>
           <div className="w-[16%] py-3  items-center border-[#B6B6B6] ">
             {t("NAME")}
           </div>
@@ -91,6 +94,7 @@ const FilteredList = ({ patientVisitList = [] }) => {
                 tokenNumber,
                 tags,
                 id,
+                visitTime = [],
                 patientId,
               } = item || {};
 
@@ -99,21 +103,34 @@ const FilteredList = ({ patientVisitList = [] }) => {
                   key={index}
                   className="flex  cursor-pointer border-b border-[#E7F4FF]"
                 >
-                  <button
+                  {/* <button
                     onClick={() => handleRoute(id)}
                     disabled={visitStatus !== "UPCOMING"}
                     className="w-[10%] ps-2 items-center flex flex-shrink-0 flex-wrap py-3  border-[#B6B6B6] "
                   >
                     {patientId}
+                  </button> */}
+                  <button
+                    onClick={() => handleRoute(id)}
+                    disabled={visitStatus !== "UPCOMING"}
+                    className="w-[10%] ps-2 items-center flex flex-shrink-0 flex-wrap py-3  border-[#B6B6B6] "
+                  >
+                    {tokenNumber}
                   </button>
                   <button
                     onClick={() => handleRoute(id)}
                     disabled={visitStatus !== "UPCOMING"}
                     className="w-[10%] items-center flex flex-shrink-0 flex-wrap py-3  border-[#B6B6B6] "
                   >
-                    {tokenNumber}
+                    {visitTime?.map((item, index) => {
+                      return (
+                        <button key={index} className="me-1">
+                          {moment(item).format("hh:mm A")}
+                          {index === visitTime.length - 1 ? null : ","}
+                        </button>
+                      );
+                    })}
                   </button>
-
                   <button
                     onClick={() => handleRoute(id)}
                     disabled={visitStatus !== "UPCOMING"}

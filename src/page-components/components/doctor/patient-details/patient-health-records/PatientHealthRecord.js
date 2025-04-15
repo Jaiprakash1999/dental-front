@@ -18,6 +18,7 @@ import useGetSelectedVital from "./wellness-record/hooks/useGetSelectedVital";
 import useGetSelectedPresciption from "./prescription/hooks/useGetSelectedPresciption";
 import useGetSelectedScreening from "./screening-form/hooks/useGetSelectedScreening";
 import useGetSelectedVaccination from "./vaccination-form/hooks/useGetSelectedVaccination";
+import useGetSelectedDentalRecord from "./dental-form/hooks/useGetSelectedDentalRecord";
 import useGetSelectedBaseLine from "./base-line-and-pregnancy-overview/hooks/useGetSelectedBaseLine";
 import AddBaseLinePergnancy from "./base-line-and-pregnancy-overview/AddBaseLinePergnancy";
 import AddAntenatalPeriodicCare from "./antenatal-care/AddAntenatalPeriodicCare";
@@ -29,6 +30,8 @@ import useGetSelectedBabyCare from "./care-of-baby/hooks/useGetSelectedBabyCare"
 import AddBabyCareInfo from "./care-of-baby/AddBabyCareInfo";
 import PostNatalCare from "./post-natal-care/PostNatalCare";
 import CareOfBaby from "./care-of-baby/CareOfBaby";
+import AddDentalForm from "./dental-form/AddDentalForm";
+import DentalRecord from "./dental-form/DentalRecord";
 
 const PatientHealthRecord = ({
   patientRecord = {},
@@ -49,6 +52,7 @@ const PatientHealthRecord = ({
   const { getSelectedAntenatal } = useGetSelectedAntenatalCare();
   const { getSelectedPostNatalCare } = useGetSelectedPostNatalCare();
   const { getSelectedBabyCare } = useGetSelectedBabyCare();
+  const { getSelectedDental } = useGetSelectedDentalRecord();
 
   const {
     vaccinationForms = {},
@@ -59,6 +63,7 @@ const PatientHealthRecord = ({
     antenatalCares = {},
     postNatalCares = {},
     careOfBabyForms = {},
+    dentalForms = {},
   } = patientRecord || {};
 
   const MODAL_COMPONENT_MAPPING = {
@@ -70,6 +75,7 @@ const PatientHealthRecord = ({
     antenatal_periodic_care: AddAntenatalPeriodicCare,
     post_natal_care: AddPostNatalCareRecord,
     baby_care: AddBabyCareInfo,
+    dental_form: AddDentalForm,
   };
 
   const GET_SELECTED_DATA_FUNCTION = {
@@ -81,6 +87,7 @@ const PatientHealthRecord = ({
     antenatal_periodic_care: getSelectedAntenatal,
     post_natal_care: getSelectedPostNatalCare,
     baby_care: getSelectedBabyCare,
+    dental_form: getSelectedDental,
   };
 
   const MODAL_COMPONENT_PROPS_MAPPING = {
@@ -91,6 +98,7 @@ const PatientHealthRecord = ({
     antenatal_periodic_care: { getAllPatientRecord },
     post_natal_care: { getAllPatientRecord },
     baby_care: { getAllPatientRecord },
+    dental_form: { getAllPatientRecord },
   };
 
   const SubmitRecordComponent =
@@ -202,6 +210,13 @@ const PatientHealthRecord = ({
                 <CareOfBaby
                   careOfBabyForms={careOfBabyForms}
                   isRecordLoading={isRecordLoading}
+                  handleSelectedData={handleSelectedData}
+                />
+              )}
+              {dentalForms.forms?.length > 0 && (
+                <DentalRecord
+                  dentalForms={dentalForms}
+                  isDentaFormLoading={isRecordLoading}
                   handleSelectedData={handleSelectedData}
                 />
               )}
