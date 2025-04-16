@@ -2,12 +2,10 @@ import React, { useRef, useState } from "react";
 import TertiaryButton from "../../../../../common-components/Buttons/TertiaryButton";
 import PrimaryButton from "../../../../../common-components/Buttons/PrimaryButton";
 import Modal from "../../../../../common-components/Modal";
-import { formatArray, formatLabTest } from "../../../../../utils/formateArray";
+import { formatArray } from "../../../../../utils/formateArray";
 import { useTranslation } from "react-i18next";
-import useAddScreeingForm from "../hooks/useAddScreeingForm";
 import useGetAllDiagnosis from "../../../create-prescription/hooks/useGetAllDiagnosis";
 import SearchSelectFromAPI from "../../../../../common-components/SearchSelectFromAPI";
-import useGetLabTest from "../screening-form/hooks/useGetLabTest";
 import TeethMap from "./TeethMap";
 import SecondaryButton from "../../../../../common-components/Buttons/SecondaryButton";
 import FileUpload from "../../../../../../images/file_upload.svg";
@@ -36,13 +34,6 @@ const AddDentalForm = ({
 
   const { differentialDiagnosis, isdiagnosisLoading, getAllDiagnosis } =
     useGetAllDiagnosis();
-
-  // const {
-  //   diagnosis: selectedDiagnosis = "",
-  //   notes = "",
-  //   typeOfTeeth,
-  //   labInvestigations: selectedLabInvestigation = [],
-  // } = selectedRecord || {};
 
   const [dentalFormInfo, setDentalFormInfo] = useState(
     selectedRecord.id === undefined
@@ -243,9 +234,6 @@ const AddDentalForm = ({
   };
 
   const { diagnosis } = dentalFormInfo || {};
-
-  const { labInvestigations, isLabInvestigationLoading, getAllInvestigations } =
-    useGetLabTest({ diagnosis });
 
   const onReset = () => {
     setDentalFormInfo(

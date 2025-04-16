@@ -27,11 +27,14 @@ import useGetSelectedAntenatalCare from "./antenatal-care/hooks/useGetSelectedAn
 import AddPostNatalCareRecord from "./post-natal-care/AddPostNatalCareRecord";
 import useGetSelectedPostNatalCare from "./post-natal-care/hooks/useGetSelectedPostNatalCare";
 import useGetSelectedBabyCare from "./care-of-baby/hooks/useGetSelectedBabyCare";
+import useGetUploadedRecord from "./upload-files/hooks/useGetUploadedRecord";
 import AddBabyCareInfo from "./care-of-baby/AddBabyCareInfo";
 import PostNatalCare from "./post-natal-care/PostNatalCare";
 import CareOfBaby from "./care-of-baby/CareOfBaby";
 import AddDentalForm from "./dental-form/AddDentalForm";
 import DentalRecord from "./dental-form/DentalRecord";
+import AddUploadRecord from "./upload-files/AddUploadRecord";
+import UploadRecord from "./upload-files/UploadRecord";
 
 const PatientHealthRecord = ({
   patientRecord = {},
@@ -53,6 +56,7 @@ const PatientHealthRecord = ({
   const { getSelectedPostNatalCare } = useGetSelectedPostNatalCare();
   const { getSelectedBabyCare } = useGetSelectedBabyCare();
   const { getSelectedDental } = useGetSelectedDentalRecord();
+  const { getSelectedDocument } = useGetUploadedRecord();
 
   const {
     vaccinationForms = {},
@@ -64,6 +68,7 @@ const PatientHealthRecord = ({
     postNatalCares = {},
     careOfBabyForms = {},
     dentalForms = {},
+    uploadDocument = {},
   } = patientRecord || {};
 
   const MODAL_COMPONENT_MAPPING = {
@@ -76,6 +81,7 @@ const PatientHealthRecord = ({
     post_natal_care: AddPostNatalCareRecord,
     baby_care: AddBabyCareInfo,
     dental_form: AddDentalForm,
+    upload_document: AddUploadRecord,
   };
 
   const GET_SELECTED_DATA_FUNCTION = {
@@ -88,6 +94,7 @@ const PatientHealthRecord = ({
     post_natal_care: getSelectedPostNatalCare,
     baby_care: getSelectedBabyCare,
     dental_form: getSelectedDental,
+    upload_document: getSelectedDocument,
   };
 
   const MODAL_COMPONENT_PROPS_MAPPING = {
@@ -99,6 +106,7 @@ const PatientHealthRecord = ({
     post_natal_care: { getAllPatientRecord },
     baby_care: { getAllPatientRecord },
     dental_form: { getAllPatientRecord },
+    upload_document: { getAllPatientRecord },
   };
 
   const SubmitRecordComponent =
@@ -216,6 +224,13 @@ const PatientHealthRecord = ({
               {dentalForms.forms?.length > 0 && (
                 <DentalRecord
                   dentalForms={dentalForms}
+                  isDentaFormLoading={isRecordLoading}
+                  handleSelectedData={handleSelectedData}
+                />
+              )}
+              {uploadDocument.forms?.length > 0 && (
+                <UploadRecord
+                  uploadDocument={uploadDocument}
                   isDentaFormLoading={isRecordLoading}
                   handleSelectedData={handleSelectedData}
                 />

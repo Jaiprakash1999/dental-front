@@ -95,7 +95,7 @@ const FilteredList = ({ patientVisitList = [] }) => {
                 tags,
                 id,
                 visitTime = [],
-                patientId,
+                // patientId,
               } = item || {};
 
               return (
