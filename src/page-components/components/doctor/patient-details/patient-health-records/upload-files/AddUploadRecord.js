@@ -84,6 +84,7 @@ const AddUploadRecord = ({
                   type="text"
                   name="documentName"
                   onChange={handleChange}
+                  disabled={!isEditable}
                   value={documentInfo.documentName}
                   placeholder={t("Document Name")}
                   className="focus:outline-none disabled:text-secondary text-[#2D2E33] font-normal disabled:bg-[#F9FAFB] placeholder:font-normal rounded-lg ps-4 pe-2 border placeholder:text-[#9CA3AF] border-[#D1D5DB] text-sm py-2 w-full focus:border-[#2D2E33]"
