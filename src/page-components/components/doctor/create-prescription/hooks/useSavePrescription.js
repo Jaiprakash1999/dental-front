@@ -139,7 +139,7 @@ const useSavePrescription = ({ method = "post", contentRef }) => {
           // Generate PDF from HTML
           const element = contentRef.current;
           const opt = {
-            margin: 6,
+            margin: 0,
             filename: `${name}_prescription.pdf`,
             image: { type: "jpeg", quality: 1 },
             html2canvas: { scale: 2, useCORS: true },
