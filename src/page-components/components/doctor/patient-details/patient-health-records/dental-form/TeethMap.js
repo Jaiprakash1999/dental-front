@@ -3,8 +3,10 @@ import Tooltip from "../../../../../common-components/Tooltip";
 import PrimaryButton from "../../../../../common-components/Buttons/PrimaryButton";
 import TertiaryButton from "../../../../../common-components/Buttons/TertiaryButton";
 import { lowerTeeth, upperTeeth } from "./Teeth";
-const radius = 180;
-const toothSize = 48;
+
+const radiusX = 150; // horizontal spread
+const radiusY = 300; // vertical spread (smaller than X makes it oval)
+const toothSize = 30;
 
 export default function TeethMap({
   isTeethMapOpen = false,
@@ -24,12 +26,12 @@ export default function TeethMap({
       <div className="flex flex-col items-center p-6">
         <h2 className="text-xl font-semibold mb-4">Teeth Map</h2>
         <div className="relative p-6">
-          <div className="flex flex-col items-center">
-            <div className="flex justify-center gap-2 my-32">
+          <div className="flex flex-col mt-32 items-center">
+            <div className="flex relative justify-center my-40 gap-2">
               {upperTeeth.map((tooth, index) => {
                 const angle = Math.PI - (index / 15) * Math.PI; // π to 0 radians
-                const x = radius * Math.cos(angle);
-                const y = radius * Math.sin(angle);
+                const x = radiusX * Math.cos(angle);
+                const y = radiusY * Math.sin(angle);
 
                 return (
                   <div
@@ -70,11 +72,11 @@ export default function TeethMap({
             <span className="text-sm font-semibold text-green-600">
               Upper (maxillary)
             </span>
-            <div className="flex justify-center gap-2 mt-14">
+            <div className="flex relative justify-center gap-2">
               {lowerTeeth.map((tooth, index) => {
                 const angle = Math.PI - (index / 15) * Math.PI; // π to 0 radians
-                const x = radius * Math.cos(angle);
-                const y = radius * Math.sin(angle); // ⬅️ No negative here
+                const x = radiusX * Math.cos(angle);
+                const y = radiusY * Math.sin(angle); // ⬅️ No negative here
 
                 return (
                   <div
