@@ -250,7 +250,7 @@ const AntenatalVisitsForm = ({
                       type="text"
                       className="w-full p-2.5 outline-none  bg-[#F9FAFB] focus:bg-[#ffff]"
                     />
-                  </div>{" "}
+                  </div>
                   <div className="border border-[#D1D5DB]">
                     <input
                       name="liePresentation"

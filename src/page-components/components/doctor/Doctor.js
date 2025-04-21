@@ -17,6 +17,8 @@ const Doctor = () => {
   const [antenatalCarePage, setAntenatalCarePage] = useState(1);
   const [careOfBabyPage, setCareOfBabyPage] = useState(1);
   const [postNatalCarePage, setPostNatalCarePage] = useState(1);
+  const [dentalPage, setDentalPage] = useState(1);
+  const [uploadDocumentPage, setUploadDocumentPage] = useState(1);
 
   const [activePatientDetailsTab, setActivePatientDetailsTab] =
     useState("health_records");
@@ -53,6 +55,10 @@ const Doctor = () => {
         setCareOfBabyPage,
         postNatalCarePage,
         setPostNatalCarePage,
+        dentalPage,
+        setDentalPage,
+        uploadDocumentPage,
+        setUploadDocumentPage,
       }}
     >
       <div className="w-full relative">

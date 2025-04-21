@@ -1,7 +1,8 @@
 import React, { memo, useState } from "react";
 import PrimaryButton from "../../../../common-components/Buttons/PrimaryButton";
-import { VISIT_TAGS } from "../../../../constants/Constant";
+import { DOCTOR_LIST, VISIT_TAGS } from "../../../../constants/Constant";
 import useCheckIn from "./hooks/useCheckIn";
+import useGetDoctorList from "./hooks/useGetDoctorList";
 import useGetPatientList from "./hooks/useGetPatientList";
 import useGetAllCompliants from "../../../doctor/create-prescription/hooks/useGetAllCompliants";
 import { formatArray } from "../../../../utils/formateArray";
@@ -13,7 +14,9 @@ import MultiSelectWithSearch from "../../../../common-components/MultiSelectWith
 import {
   faAngleDown,
   faAngleUp,
+  faCalendar,
   faCircleUser,
+  faClock,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -21,6 +24,11 @@ import { faXmark } from "@fortawesome/free-solid-svg-icons/faXmark";
 import closeCross from "../../../../../images/close_cross.svg";
 import { useTranslation } from "react-i18next";
 import MultiSelectWithAPIsearch from "../../../../common-components/MultiSelectWithAPIsearch";
+import SelectTimeSlotModal from "./SelectTimeSlotModal";
+import Select from "../../../../common-components/Select";
+import SearchSelectFromAPI from "../../../../common-components/SearchSelectFromAPI";
+import useGetDoctorTimeSlot from "./hooks/useGetDoctorTimeSlot";
+import moment from "moment";
 
 const { REACT_APP_MMU_UNIT } = process.env || {};
 
@@ -31,27 +39,36 @@ const CreateAppointment = ({ patient = {} }) => {
 
   const dispatch = useDispatch();
   const [appointmentData, setAppointmentData] = useState({
-    currentDate: new Date().toISOString().split("T")[0], // Defaults to today
-    photo: patient.photo,
-    patientId: patient.id,
+    // currentDate: new Date().toISOString().split("T")[0], // Defaults to today
+    photo: patient?.photo,
+    patientId: patient?.id,
     tags: [],
     chiefComplaint: [],
-    bloodGroup: patient.bloodGroup,
+    bloodGroup: patient?.bloodGroup,
     mmuUnit: REACT_APP_MMU_UNIT,
     visitType: "INPERSON",
+    doctorName: "",
+    doctorId: "",
+    visitDate: "",
+    visitTime: [],
   });
 
-  console.log(appointmentData, "appointmentData");
-
   const [isOnClear, setIsOnClear] = useState(false);
+  const [timeSlotModal, setTimeSlotModal] = useState(false);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, id } = e.target;
     if (name === "patientId") {
       setAppointmentData((prev) => ({
         ...prev,
         patientId: value.id,
         photo: value.photo || value.thumbnail,
+      }));
+    } else if (name === "doctorName") {
+      setAppointmentData((prev) => ({
+        ...prev,
+        doctorName: value,
+        doctorId: id,
       }));
     } else {
       setAppointmentData((prev) => ({ ...prev, [name]: value }));
@@ -60,12 +77,17 @@ const CreateAppointment = ({ patient = {} }) => {
 
   const { chiefComplaints, isChiefComplaintsLoading, getAllChiefComplaints } =
     useGetAllCompliants();
+  const { getDoctorList, doctorList, isDoctorListLoading } = useGetDoctorList();
+  const { isSlotLoading, getTimeSlots, timeSlot } = useGetDoctorTimeSlot({
+    doctorId: appointmentData?.doctorId,
+  });
 
   const { isCheckInLoading, onCheckIn } = useCheckIn({
     appointmentData,
     setAppointmentData,
     setIsOnClear,
   });
+
   const { patientList, getPatientList, isPatientListLoading } =
     useGetPatientList();
 
@@ -80,6 +102,8 @@ const CreateAppointment = ({ patient = {} }) => {
       })
     );
   };
+
+  console.log(appointmentData, "appointmentData");
 
   return (
     <div className="mx-3 my-2">
@@ -106,28 +130,14 @@ const CreateAppointment = ({ patient = {} }) => {
       </div>
       <div>
         <form className="pb-4">
-          {currentCoordinate.latitude === undefined ? (
+          {/* {currentCoordinate.latitude === undefined ? (
             <div className="flex my-2 items-center text-red-400 font-light">
               <CiWarning className="text-red-500" />
               <div className="text-sm ms-1">
                 {t("Either connect your device or fetch the location")}
               </div>
             </div>
-          ) : null}
-
-          <div className="flex flex-col my-2">
-            <label className="text-sm mb-1 text-[#111928]">
-              {t("Appointment Date")}*
-            </label>
-            <input
-              onChange={handleChange}
-              name="currentDate"
-              type="date"
-              min={new Date().toISOString().split("T")[0]} // Set min date to today
-              value={appointmentData.currentDate}
-              className="focus:outline-none uppercase text-[#2D2E33] font-normal bg-[#F9FAFB] placeholder:font-normal rounded-lg ps-10 pe-2 border placeholder:text-[#9CA3AF] border-[#D1D5DB] text-sm py-2.5 w-full focus:border-[#2D2E33]"
-            />
-          </div>
+          ) : null} */}
 
           <div className="flex flex-col my-2">
             <label className="text-sm mb-1 text-[#111928]">
@@ -165,6 +175,67 @@ const CreateAppointment = ({ patient = {} }) => {
               className="focus:outline-none text-[#2D2E33] font-normal bg-[#F9FAFB] placeholder:font-normal rounded-lg ps-4 pe-2 border placeholder:text-[#9CA3AF] border-[#D1D5DB] text-sm py-2 w-full focus:border-[#2D2E33]"
             />
           </div>
+          <hr className="mb-2"></hr>
+          <div className="w-full text-sm text-[#111928] ">
+            <div className="mb-1">Doctor*</div>
+            <SearchSelectFromAPI
+              getData={getDoctorList}
+              options={doctorList}
+              isLoading={isDoctorListLoading}
+              name="doctorName"
+              onChange={handleChange}
+              defaultOptions={{}}
+              allowPressEnter={false}
+              placeholder={t("Type")}
+              openTopPosition="top-1.5"
+              closeTopPosition="top-1.5"
+              className="focus:outline-none text-[#2D2E33] font-normal bg-[#F9FAFB] placeholder:font-normal rounded-lg ps-4 pe-2 border placeholder:text-[#9CA3AF] border-[#D1D5DB] text-sm py-2 w-full focus:border-[#2D2E33]"
+            />
+          </div>
+          <div className="flex flex-col pb-3 my-2">
+            <label className="text-sm mb-0.5 text-[#111928]"> Date*</label>
+            <div className="relative">
+              <div className="absolute left-4 top-2">
+                <FontAwesomeIcon icon={faCalendar} size="sm" color="#6B7280" />
+              </div>
+              <input
+                name="visitDate"
+                type="text"
+                // value={appointmentData.visitDate}
+                value={moment(appointmentData.visitDate).format("DD-MM-yyyy")}
+                onChange={handleChange}
+                placeholder="Pick up Slot"
+                readOnly
+                onClick={() => {
+                  setTimeSlotModal(true);
+                }}
+                className="focus:outline-none uppercase text-[#2D2E33] font-normal bg-[#F9FAFB] placeholder:font-normal rounded-lg ps-10 border placeholder:text-[#9CA3AF] border-[#D1D5DB] text-sm py-2.5 w-full focus:border-[#2D2E33]"
+              />
+            </div>
+          </div>
+          <div className="flex flex-col pb-3 my-2">
+            <label className="text-sm mb-0.5 text-[#111928]"> Time Slot</label>
+            <div className="relative">
+              <div className="absolute left-4 top-2">
+                <FontAwesomeIcon icon={faClock} size="sm" color="#6B7280" />
+              </div>
+              <input
+                name="visitTime"
+                type="text"
+                value={appointmentData.visitTime.map((item) =>
+                  moment(item).format("hh:mm A")
+                )}
+                onChange={handleChange}
+                placeholder="Pick up Slot"
+                readOnly
+                // onClick={() => {
+                //   setTimeSlotModal(true);
+                // }}
+                className="focus:outline-none text-[#2D2E33] font-normal bg-[#F9FAFB] placeholder:font-normal rounded-lg ps-10 border placeholder:text-[#9CA3AF] border-[#D1D5DB] text-sm py-2.5 w-full focus:border-[#2D2E33]"
+              />
+            </div>
+          </div>
+
           <div className="flex mb-10 flex-col">
             <label className="text-sm mb-0.5 text-[#111928]">{t("Tags")}</label>
             <MultiSelectWithSearch
@@ -194,15 +265,25 @@ const CreateAppointment = ({ patient = {} }) => {
             disabled={
               appointmentData?.patientId === "" ||
               appointmentData?.chiefComplaint.length === 0 ||
-              currentCoordinate.latitude === undefined ||
+              // currentCoordinate.latitude === undefined ||
               isCheckInLoading
             }
             buttonName={t("Check-In")}
             width="w-full"
             type="button"
-            onClick={(e) => onCheckIn(e, appointmentData?.currentDate)}
+            onClick={(e) => onCheckIn(e, appointmentData?.visitDate)}
           />
         </form>
+        {timeSlotModal ? (
+          <SelectTimeSlotModal
+            timeSlotModal={timeSlotModal}
+            setTimeSlotModal={setTimeSlotModal}
+            setAppointmentData={setAppointmentData}
+            isSlotLoading={isSlotLoading}
+            getTimeSlots={getTimeSlots}
+            timeSlot={timeSlot}
+          />
+        ) : null}
       </div>
     </div>
   );

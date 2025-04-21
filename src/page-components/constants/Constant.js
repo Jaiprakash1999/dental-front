@@ -333,7 +333,7 @@ export const ANS_VISIT_DETAILS_KEYS = {
   referral: "",
 };
 
-export const MMU_UNIT = ["Pinapaka", "Cherla", "Burgampadu", "AID"];
+export const MMU_UNIT = ["Pinapaka", "Cherla", "Burgampadu", "Parchaa"];
 
 export const PERGNANCY_HIGH_RISK = [
   "Short stature < 145 cms",

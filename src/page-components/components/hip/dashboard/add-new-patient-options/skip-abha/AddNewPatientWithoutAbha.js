@@ -50,7 +50,7 @@ const AddNewPatientWithoutAbha = ({ setPatient = () => {} }) => {
   const { habitation, isHbaitaionLoading, getHabiations } = useGetHabitations();
   const [patientInfo, setPatientInfo] = useState({
     name: "",
-    fatherName: null,
+    fatherName: "",
     photo: null,
     phoneNumber: "",
     age: "",
@@ -60,8 +60,6 @@ const AddNewPatientWithoutAbha = ({ setPatient = () => {} }) => {
     monthOfBirth: "",
     yearOfBirth: "",
     gender: "",
-    habitat: "others (others, others)",
-    habitatId: 139,
     address: "",
     district: globalSearch?.address?.state_district,
     state: globalSearch?.address?.state,
@@ -263,29 +261,31 @@ const AddNewPatientWithoutAbha = ({ setPatient = () => {} }) => {
       </div>
 
       <div className="flex mt-2 text-sm text-[#2D2E33] flex-col">
-        <label className="mb-1">{t("Patient Name")}*</label>
+        <label className="mb-1">{t("Patient's Name")}*</label>
         <input
           type="text"
           name="name"
           pattern="[A-Za-z]+"
-          placeholder={t("first name, middle name, last name")}
+          placeholder={t("First Name")}
           value={patientInfo.name}
           onChange={handleChange}
           className="border  bg-[#F9FAFB] focus:border-[#2D2E33] text-sm text-gray-800 py-2 focus:outline-none rounded-lg placeholder:text-[#D1D5DB] px-3"
         />
       </div>
+
       <div className="flex mt-2 text-sm text-[#2D2E33] flex-col">
-        <label className="mb-1">{t("Patient's Father Name")}</label>
+        <label className="mb-1">{t("Father's Name")}*</label>
         <input
           type="text"
           name="fatherName"
           pattern="[A-Za-z]+"
-          placeholder={t("Patient's Father Name")}
+          placeholder={t("Father's Name")}
           value={patientInfo.fatherName}
           onChange={handleChange}
           className="border  bg-[#F9FAFB] focus:border-[#2D2E33] text-sm text-gray-800 py-2 focus:outline-none rounded-lg placeholder:text-[#D1D5DB] px-3"
         />
       </div>
+
       <div className="flex items-center mt-1 gap-3">
         <div className="text-sm text-[#2D2E33] w-1/2 py-2 flex flex-col">
           <div className="mb-1">{t("Gender")}*</div>
@@ -354,26 +354,7 @@ const AddNewPatientWithoutAbha = ({ setPatient = () => {} }) => {
           maxLength={10} // Set maximum length to 10 characters
         />
       </div>
-      <div className="text-sm text-[#2D2E33] mb-2 flex-col">
-        <label className="mb-1">{t("Habitation")}*</label>
-        <SearchSelectFromAPI
-          getData={getHabiations}
-          options={formatArrayForHabitations(habitation)}
-          isLoading={isHbaitaionLoading}
-          name="habitat"
-          onChange={handleChange}
-          defaultOptions={{
-            label: patientInfo.habitat,
-            value: patientInfo.habitat,
-            id: patientInfo.habitatId,
-          }}
-          allowPressEnter={false}
-          isOnClear={isOnClear}
-          setIsOnClear={setIsOnClear}
-          placeholder={t("Type")}
-          className="focus:outline-none text-[#2D2E33] font-normal bg-[#F9FAFB] placeholder:font-normal rounded-lg ps-4 pe-2 border placeholder:text-[#9CA3AF] border-[#D1D5DB] text-sm py-2 w-full focus:border-[#2D2E33]"
-        />
-      </div>
+
       <div className="text-sm text-[#2D2E33] flex mt-1 mb-2 flex-col">
         <label className="mb-1">{t("Address")}</label>
         <textarea

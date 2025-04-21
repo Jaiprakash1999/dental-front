@@ -10,6 +10,7 @@ import useDeleteUser from "./hooks/useDeleteUser";
 import { USER_TYPE } from "../../utils/userType";
 import { ToastContainer } from "react-toastify";
 import { FaPen } from "react-icons/fa6";
+import AddDoctor from "../add-doctor/AddDoctor";
 
 const UsersManagement = () => {
   const { t } = useTranslation();
@@ -19,6 +20,7 @@ const UsersManagement = () => {
   const { onDelete, isUserDeleting } = useDeleteUser({ getAllUsers });
   const [currentItem, setCurrentItem] = useState({});
   const [isEditable, setIsEditable] = useState(false);
+  const [isDoctorModalOpen, setIsDoctorModalOpen] = useState(false);
 
   const onOpenModal = (value) => {
     setCurrentItem({});
@@ -39,6 +41,10 @@ const UsersManagement = () => {
         <div className="flex items-center justify-between">
           <div className="text-base font-medium">{t("Active Users")}</div>
           <div className="gap-5 flex items-center">
+            <PrimaryButton
+              buttonName={t("Add Doctor")}
+              onClick={() => setIsDoctorModalOpen((prev) => !prev)}
+            />
             <PrimaryButton
               buttonName={t("Add MMU Staff")}
               onClick={() => onOpenModal("MMUSTAFF")}
@@ -201,6 +207,14 @@ const UsersManagement = () => {
         setCurrentItem={setCurrentItem}
         setIsEditable={setIsEditable}
       />
+      <div>
+        {isDoctorModalOpen && (
+          <AddDoctor
+            showModal={isDoctorModalOpen}
+            setIsDoctorModalOpen={setIsDoctorModalOpen}
+          />
+        )}
+      </div>
     </div>
   );
 };

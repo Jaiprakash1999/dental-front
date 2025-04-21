@@ -37,10 +37,13 @@ const useCheckIn = ({
         `${REACT_APP_API_KEY}/api/v1/mmu/visit`,
         {
           patientId: appointmentData?.patientId,
-          doctorId: null,
+          doctorId: appointmentData?.doctorId,
           chiefComplaint: appointmentData?.chiefComplaint,
           visitType: "INPERSON",
-          visitDate: selectedDate,
+          visitDate: new Date(selectedDate)?.toLocaleDateString("en-CA"),
+
+          // selectedDate.toISOString().split("T")[0],
+          visitTime: appointmentData?.visitTime,
           tags: appointmentData?.tags,
           mmuUnit: mmuUnitName || REACT_APP_MMU_UNIT,
           // latitude: +lat,
@@ -61,17 +64,20 @@ const useCheckIn = ({
           },
         }
       );
+      setIsOnClear(true);
       getAllPatientVisit();
       setAppointmentData({
+        photo: null,
         patientId: "",
         tags: [],
         chiefComplaint: [],
-        visitType: "INPERSON",
         mmuUnit: REACT_APP_MMU_UNIT,
-        bloodGroup: "",
-        currentDate: new Date().toISOString().split("T")[0],
+        visitType: "INPERSON",
+        doctorName: "",
+        doctorId: "",
+        visitDate: "",
+        visitTime: [],
       });
-      setIsOnClear(true);
       toast.success("Patient checked in successfully", {
         position: "top-center",
       });
@@ -103,8 +109,9 @@ const useCheckIn = ({
           }
         }
       }
+    } finally {
+      setIsCheckInLoading(false);
     }
-    setIsCheckInLoading(false);
   };
 
   return {

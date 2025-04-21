@@ -16,7 +16,14 @@ const HealthRecordButton = ({ setActiveHealthTab = () => {} }) => {
       <div className="text-[#2D2E33] font-medium mb-5">
         {t("Add New Record")}:
       </div>
+
       <div className="grid text-[#4C6AF7] grid-cols-1 space-y-5">
+        <button
+          className="text-left"
+          onClick={() => setActiveHealthTab("upload_document")}
+        >
+          {t("Upload File")}
+        </button>
         <button
           className="text-left"
           onClick={() => setActiveHealthTab("screening_form")}
@@ -37,7 +44,15 @@ const HealthRecordButton = ({ setActiveHealthTab = () => {} }) => {
         >
           {t("Vaccination Form")}
         </button>
+
         <button
+          className="text-left"
+          onClick={() => setActiveHealthTab("dental_form")}
+        >
+          {t("Treatment Plan")}
+        </button>
+
+        {/* <button
           className="text-left"
           onClick={() => setActiveHealthTab("pergnancy_overview")}
         >
@@ -62,7 +77,7 @@ const HealthRecordButton = ({ setActiveHealthTab = () => {} }) => {
           onClick={() => setActiveHealthTab("baby_care")}
         >
           {t("Care of Baby")}
-        </button>
+        </button> */}
       </div>
     </div>
   );
